@@ -1,0 +1,281 @@
+---
+title: "Vendas de Jogos Global"
+author: "Augusto Miranda"
+output: 
+  html_document:
+    theme: yeti
+    toc: true
+    toc_float: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Bibliotecas usadas
+
+library(tidyverse)
+library(DT)
+library(dplyr)
+library(ggplot2)
+
+
+# Ler o arquivo CSV
+vendas_jogos <- read_csv("vgsales.csv")
+
+```
+
+# Projeto 2VA - Analise de Dados - UFRPE {.tabset .tabset-pills}
+
+## Introdução
+___
+
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+Este projeto visa analisar as tendências e padrões nas vendas globais de jogos de vídeo, utilizando um conjunto de dados abrangente que cataloga informações essenciais como títulos de jogos, plataformas, gêneros, e vendas regionais e globais. Ao explorar esses dados, buscamos insights valiosos sobre o comportamento do consumidor, a popularidade de diferentes gêneros de jogos, e como certas plataformas dominam ou nicham o mercado ao longo do tempo. Utilizando ferramentas poderosas do ecossistema R, como Tidyverse para manipulação de dados, DT para interatividade de tabelas, e dplyr para filtragem e agregação, este projeto não só destaca as tendências atuais no mercado de jogos, mas também fornece uma base analítica para prever futuras mudanças na indústria. Com essa análise, desenvolvedores, editores e investidores podem tomar decisões mais informadas, enquanto os entusiastas de jogos podem entender melhor as dinâmicas que moldam suas experiências de jogo. Ao final deste estudo, esperamos apresentar uma visão clara de como as vendas de jogos têm evoluído e quais fatores são mais influentes no sucesso comercial de um título, oferecendo assim uma janela para o passado, presente e possíveis futuros do entretenimento digital.
+</div>
+
+## Abordagem Metodológica
+___
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+Para abordar essa análise, utilizaremos um conjunto de dados abrangente que inclui informações essenciais como títulos de jogos, plataformas, gêneros, e vendas regionais e globais. Empregaremos técnicas de análise de dados do ecossistema R, incluindo manipulação de dados com `dplyr`, visualizações com `ggplot2`, e tabelas interativas com `DT`, para investigar padrões de vendas e preferências de gênero em diferentes regiões.
+</div>
+## Técnica Adotada
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+Nossa técnica envolve a análise exploratória de dados para identificar os gêneros de jogos mais populares por região, tendências de vendas ao longo do tempo, e o desempenho de diferentes plataformas. Utilizaremos visualizações de dados como gráficos de barras, gráficos de linhas e tabelas interativas para apresentar nossas descobertas de forma clara e intuitiva, facilitando a compreensão dos padrões subjacentes.
+</div>
+## Benefícios para os Clientes
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+A análise proporcionará aos clientes uma visão detalhada das dinâmicas do mercado de jogos, destacando oportunidades de investimento, áreas de crescimento potencial e tendências emergentes. Desenvolvedores e editores podem usar esses insights para orientar o desenvolvimento de novos títulos, enquanto investidores e analistas de mercado podem tomar decisões mais informadas. Para os entusiastas de jogos, nossa análise oferece uma compreensão mais profunda das tendências que moldam suas experiências de jogo.
+</div>
+# Bibliotecas Usadas {.tabset .tabset-pills}
+___
+
+## Bibliotecas Usadas
+
+Bibliotecas | Descrição
+:------------|:----------
+TidyVerse   | Uma coleção de pacotes R para ciência de dados que facilita a importação, manipulação, e visualização de dados.
+DT          | Fornece uma interface R para a biblioteca JavaScript DataTables, permitindo a criação de tabelas HTML interativas.
+dplyr       | Oferece uma série de funções intuitivas para manipular dataframes, como filtrar linhas, selecionar colunas, agrupar dados e sumarizá-los, facilitando a limpeza e análise de dados.
+ggplot2     | Permite a construção de gráficos complexos a partir de componentes simples e compreensíveis.
+
+
+## Aba 2
+Teste
+
+## Aba 3
+Teste
+
+# Dados {.tabset .tabset-pills}
+
+
+
+## Estatísticas Descritivas
+
+```{r estatisticas-tabela-NA, echo=FALSE}
+estatisticas_NA <- data.frame(
+  Estatistica = c("Média", "Mediana", "Desvio Padrão", "Variância", "Máximo", "Mínimo"),
+  Vendas_NA = c(
+    mean(vendas_jogos$NA_Sales, na.rm = TRUE),
+    median(vendas_jogos$NA_Sales, na.rm = TRUE),
+    sd(vendas_jogos$NA_Sales, na.rm = TRUE),
+    var(vendas_jogos$NA_Sales, na.rm = TRUE),
+    max(vendas_jogos$NA_Sales, na.rm = TRUE),
+    min(vendas_jogos$NA_Sales, na.rm = TRUE)
+  )
+)
+knitr::kable(estatisticas_NA, caption = "Estatísticas Descritivas das Vendas NA")
+```
+___
+```{r statisticas-tabela-EU, echo=FALSE}
+estatisticas_EU <- data.frame(
+  Estatistica = c("Média", "Mediana", "Desvio Padrão", "Variância", "Máximo", "Mínimo"),
+  Vendas_EU = c(
+    mean(vendas_jogos$EU_Sales, na.rm = TRUE),
+    median(vendas_jogos$EU_Sales, na.rm = TRUE),
+    sd(vendas_jogos$EU_Sales, na.rm = TRUE),
+    var(vendas_jogos$EU_Sales, na.rm = TRUE),
+    max(vendas_jogos$EU_Sales, na.rm = TRUE),
+    min(vendas_jogos$EU_Sales, na.rm = TRUE)
+  )
+)
+knitr::kable(estatisticas_EU, caption = "Estatísticas Descritivas das Vendas EUROPA")
+
+```
+___
+```{r statisticas-tabela-JP, echo=FALSE}
+estatisticas_JP <- data.frame(
+  Estatistica = c("Média", "Mediana", "Desvio Padrão", "Variância", "Máximo", "Mínimo"),
+  Vendas_JP = c(
+    mean(vendas_jogos$JP_Sales, na.rm = TRUE),
+    median(vendas_jogos$JP_Sales, na.rm = TRUE),
+    sd(vendas_jogos$JP_Sales, na.rm = TRUE),
+    var(vendas_jogos$JP_Sales, na.rm = TRUE),
+    max(vendas_jogos$JP_Sales, na.rm = TRUE),
+    min(vendas_jogos$JP_Sales, na.rm = TRUE)
+  )
+)
+knitr::kable(estatisticas_JP, caption = "Estatísticas Descritivas das Vendas JAPÃO")
+
+```
+___
+```{r statisticas-tabela-OUTROS, echo=FALSE}
+estatisticas_Other <- data.frame(
+  Estatistica = c("Média", "Mediana", "Desvio Padrão", "Variância", "Máximo", "Mínimo"),
+  Vendas_Other = c(
+    mean(vendas_jogos$Other_Sales, na.rm = TRUE),
+    median(vendas_jogos$Other_Sales, na.rm = TRUE),
+    sd(vendas_jogos$Other_Sales, na.rm = TRUE),
+    var(vendas_jogos$Other_Sales, na.rm = TRUE),
+    max(vendas_jogos$Other_Sales, na.rm = TRUE),
+    min(vendas_jogos$Other_Sales, na.rm = TRUE)
+  )
+)
+knitr::kable(estatisticas_Other, caption = "Estatísticas Descritivas das Vendas de Outros Paises")
+
+```
+___
+```{r statisticas-tabela-GLOBAL, echo=FALSE}
+estatisticas_Global <- data.frame(
+  Estatistica = c("Média", "Mediana", "Desvio Padrão", "Variância", "Máximo", "Mínimo"),
+  Vendas_GLobal = c(
+    mean(vendas_jogos$Global_Sales, na.rm = TRUE),
+    median(vendas_jogos$Global_Sales, na.rm = TRUE),
+    sd(vendas_jogos$Global_Sales, na.rm = TRUE),
+    var(vendas_jogos$Global_Sales, na.rm = TRUE),
+    max(vendas_jogos$Global_Sales, na.rm = TRUE),
+    min(vendas_jogos$Global_Sales, na.rm = TRUE)
+  )
+)
+knitr::kable(estatisticas_Global, caption = "Estatísticas Descritivas das Vendas GLOBAL")
+
+```
+## Gráficos
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Gráfico de dispersão para vendas na América do Norte vs. Europa
+ggplot(vendas_jogos, aes(x = NA_Sales, y = EU_Sales)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Vendas NA vs. EU", x = "Vendas na América do Norte (Milhões)", y = "Vendas na Europa (Milhões)")
+
+# Contagem de jogos por gênero
+ggplot(vendas_jogos, aes(x = Genre)) +
+  geom_bar(fill = "purple") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Contagem de Jogos por Gênero", x = "Gênero", y = "Contagem")
+
+
+```
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+top_generos <- vendas_jogos %>%
+  group_by(Genre) %>%
+  summarise(Total_Global_Sales = sum(Global_Sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Global_Sales)) %>%
+  slice_head(n = 3)  # Seleciona os três primeiros gêneros com maiores vendas
+
+dados_filtrados <- vendas_jogos %>%
+  filter(Genre %in% top_generos$Genre)
+
+ggplot(dados_filtrados, aes(x = Genre, y = Global_Sales, fill = Genre)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Vendas Globais dos Três Principais Gêneros de Jogos",
+       x = "Gênero",
+       y = "Vendas Globais (Milhões)",
+       fill = "Gênero") +
+  geom_text(stat = 'summary', fun = sum, aes(label = ..y..), vjust = -0.5, size = 3.5) +
+  scale_y_continuous(labels = scales::comma)  # Formata os números do eixo Y
+
+
+
+```
+
+### TOP 10 Vendas América do Norte
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+vendas_jogos %>%
+  arrange(desc(NA_Sales)) %>%
+  select(Name, NA_Sales) %>%
+  head(10) %>%
+  ggplot(aes(x=reorder(Name, NA_Sales), y=NA_Sales)) +
+  geom_col() +
+  coord_flip() +
+  labs(title=" ", x="Jogos", y="Vendas (Milhões)")
+
+```
+
+
+### Vendas Globais por Plataforma
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+vendas_jogos %>%
+  group_by(Platform) %>%
+  summarise(Total_Global_Sales = sum(Global_Sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Global_Sales)) %>%
+  ggplot(aes(x=reorder(Platform, Total_Global_Sales), y=Total_Global_Sales)) +
+  geom_col(fill="steelblue") +
+  coord_flip() +
+  labs(title=" ", x="Plataforma", y="Vendas Totais (Milhões)")
+
+
+```
+
+### Vendas Globais por Gênero
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+
+vendas_jogos %>%
+  group_by(Genre) %>%
+  summarise(Total_Global_Sales = sum(Global_Sales, na.rm = TRUE)) %>%
+  ggplot(aes(x=reorder(Genre, Total_Global_Sales), y=Total_Global_Sales, fill=Genre)) +
+  geom_col() +
+  coord_flip() +
+  labs(title=" ", x=" ", y="Vendas Totais (Milhões)") +
+  scale_fill_viridis_d()
+
+```
+
+### TOP Gêneros por Região
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Sumarizando as vendas por gênero e região
+vendas_por_genero_regiao <- vendas_jogos %>%
+  group_by(Genre) %>%
+  summarise(
+    NA_Sales = sum(NA_Sales, na.rm = TRUE),
+    EU_Sales = sum(EU_Sales, na.rm = TRUE),
+    JP_Sales = sum(JP_Sales, na.rm = TRUE),
+    Other_Sales = sum(Other_Sales, na.rm = TRUE),
+    Global_Sales = sum(Global_Sales, na.rm = TRUE)
+  ) %>%
+  pivot_longer(cols = -Genre, names_to = "Region", values_to = "Sales")
+
+# Encontrando o gênero mais vendido por região
+top_genero_por_regiao <- vendas_por_genero_regiao %>%
+  group_by(Region) %>%
+  top_n(n = 1, wt = Sales) %>%
+  ungroup()
+
+ggplot(top_genero_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(title = "Gênero Mais Vendido por Região", x = "Região", y = "Vendas Totais", fill = "Gênero") +
+  scale_fill_brewer(palette = "Set3") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+## Dados
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Exibir as primeiras linhas do dataframe
+sua_tabela_sem_na_string <- vendas_jogos %>%
+  filter(!apply(., 1, function(x) any(x == "N/A")))
+
+# Usar datatable para mostrar a tabela filtrada
+datatable(sua_tabela_sem_na_string, options = list(pageLength = 10))
+
+```
