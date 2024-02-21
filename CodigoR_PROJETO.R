@@ -50,3 +50,29 @@ sua_tabela_sem_na_string <- sua_tabela %>%
 
 # Usar datatable para mostrar a tabela filtrada
 datatable(sua_tabela_sem_na_string, options = list(pageLength = 10))
+
+
+# Sumarizando as vendas por gênero e região
+vendas_por_genero_regiao <- vendas_jogos %>%
+  group_by(Genre) %>%
+  summarise(
+    NA_Sales = sum(NA_Sales, na.rm = TRUE),
+    EU_Sales = sum(EU_Sales, na.rm = TRUE),
+    JP_Sales = sum(JP_Sales, na.rm = TRUE),
+    Other_Sales = sum(Other_Sales, na.rm = TRUE),
+    Global_Sales = sum(Global_Sales, na.rm = TRUE)
+  ) %>%
+  pivot_longer(cols = -Genre, names_to = "Region", values_to = "Sales")
+
+# Encontrando o gênero mais vendido por região
+top_genero_por_regiao <- vendas_por_genero_regiao %>%
+  group_by(Region) %>%
+  top_n(n = 1, wt = Sales) %>%
+  ungroup()
+
+ggplot(top_genero_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(title = " ", x = "Região", y = "Vendas Totais", fill = "Gênero") +
+  scale_fill_brewer(palette = "Set3") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))

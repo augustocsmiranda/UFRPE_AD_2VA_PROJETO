@@ -18,7 +18,8 @@ library(tidyverse)
 library(DT)
 library(dplyr)
 library(ggplot2)
-
+library(tidyr)
+library(shiny)
 
 # Ler o arquivo CSV
 vendas_jogos <- read_csv("vgsales.csv")
@@ -47,6 +48,8 @@ Nossa técnica envolve a análise exploratória de dados para identificar os gê
 <div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
 A análise proporcionará aos clientes uma visão detalhada das dinâmicas do mercado de jogos, destacando oportunidades de investimento, áreas de crescimento potencial e tendências emergentes. Desenvolvedores e editores podem usar esses insights para orientar o desenvolvimento de novos títulos, enquanto investidores e analistas de mercado podem tomar decisões mais informadas. Para os entusiastas de jogos, nossa análise oferece uma compreensão mais profunda das tendências que moldam suas experiências de jogo.
 </div>
+
+
 # Bibliotecas Usadas {.tabset .tabset-pills}
 ___
 
@@ -191,7 +194,7 @@ ggplot(dados_filtrados, aes(x = Genre, y = Global_Sales, fill = Genre)) +
 
 ```
 
-### TOP 10 Vendas América do Norte
+#### TOP 10 Vendas América do Norte
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
 
@@ -207,7 +210,7 @@ vendas_jogos %>%
 ```
 
 
-### Vendas Globais por Plataforma
+#### Vendas Globais por Plataforma
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
 
@@ -223,7 +226,7 @@ vendas_jogos %>%
 
 ```
 
-### Vendas Globais por Gênero
+#### Vendas Globais por Gênero
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
 
@@ -239,9 +242,10 @@ vendas_jogos %>%
 
 ```
 
-### TOP Gêneros por Região
+#### TOP Gêneros por Região
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
+
 # Sumarizando as vendas por gênero e região
 vendas_por_genero_regiao <- vendas_jogos %>%
   group_by(Genre) %>%
@@ -254,20 +258,26 @@ vendas_por_genero_regiao <- vendas_jogos %>%
   ) %>%
   pivot_longer(cols = -Genre, names_to = "Region", values_to = "Sales")
 
-# Encontrando o gênero mais vendido por região
-top_genero_por_regiao <- vendas_por_genero_regiao %>%
+# Encontrando os dois gêneros mais vendidos por região
+top_generos_por_regiao <- vendas_por_genero_regiao %>%
   group_by(Region) %>%
-  top_n(n = 1, wt = Sales) %>%
+  slice_max(order_by = Sales, n = 3) %>%
   ungroup()
 
-ggplot(top_genero_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
+# Plotando os resultados
+ggplot(top_generos_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
   geom_bar(stat = "identity", position = "dodge") +
   theme_minimal() +
-  labs(title = "Gênero Mais Vendido por Região", x = "Região", y = "Vendas Totais", fill = "Gênero") +
+  labs(title = " ", x = "Região", y = "Vendas Totais", fill = "Gênero") +
   scale_fill_brewer(palette = "Set3") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+
+
 ```
+
+#### Shiny Teste
+___
 
 ## Dados
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
