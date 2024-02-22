@@ -7,6 +7,28 @@ output:
     toc: true
     toc_float: true
 ---
+<style>
+body {
+  background-color: #F0F8FF; /* Um verde claro */
+}
+</style>
+
+___
+<style>
+h1 {
+  font-family: 'Arial Black', Gadget, sans-serif; color: #008cba;
+  /*text-shadow: 2px 2px 4px #F0E68C;*/
+  text-shadow: 
+    -1px -1px 0 #fff,  
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+</style>
 
 
 ```{r setup, include=FALSE}
@@ -36,6 +58,7 @@ ___
 
 <div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
 Este projeto visa analisar as tendências e padrões nas vendas globais de jogos de vídeo, utilizando um conjunto de dados abrangente que cataloga informações essenciais como títulos de jogos, plataformas, gêneros, e vendas regionais e globais. Ao explorar esses dados, buscamos insights valiosos sobre o comportamento do consumidor, a popularidade de diferentes gêneros de jogos, e como certas plataformas dominam ou nicham o mercado ao longo do tempo. Utilizando ferramentas poderosas do ecossistema R, como Tidyverse para manipulação de dados, DT para interatividade de tabelas, e dplyr para filtragem e agregação, este projeto não só destaca as tendências atuais no mercado de jogos, mas também fornece uma base analítica para prever futuras mudanças na indústria. Com essa análise, desenvolvedores, editores e investidores podem tomar decisões mais informadas, enquanto os entusiastas de jogos podem entender melhor as dinâmicas que moldam suas experiências de jogo. Ao final deste estudo, esperamos apresentar uma visão clara de como as vendas de jogos têm evoluído e quais fatores são mais influentes no sucesso comercial de um título, oferecendo assim uma janela para o passado, presente e possíveis futuros do entretenimento digital.
+[Link GITHUB](https://github.com/augustocsmiranda/UFRPE_AD_2VA_PROJETO)
 </div>
 
 ## Abordagem Metodológica
@@ -54,7 +77,7 @@ A análise proporcionará aos clientes uma visão detalhada das dinâmicas do me
 
 ## Conclusão
 <div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
-A análise detalhada das tendências e padrões nas vendas globais de jogos de vídeo revela insights fascinantes sobre o comportamento do consumidor e as preferências do mercado. Notavelmente, os jogos de ação emergem como os mais vendidos, evidenciando sua popularidade contínua entre os jogadores. Esses títulos são seguidos de perto pelos jogos de esportes, que também gozam de uma base de fãs significativa, especialmente nos consoles da Nintendo, uma plataforma conhecida por seu catálogo diversificado e atraente. Grandes empresas do setor, como a EA, têm consistentemente desenvolvido jogos nestes gêneros, solidificando sua posição no mercado.
+A análise detalhada das tendências e padrões nas vendas globais de jogos de vídeo revela insights fascinantes sobre o comportamento do consumidor e as preferências do mercado. Notavelmente, os jogos de ação emergem como os mais vendidos, evidenciando sua popularidade contínua entre os jogadores e que a America do Norte também é o maior consumidor de jogos. Esses títulos são seguidos de perto pelos jogos de esportes, que também gozam de uma base de fãs significativa, especialmente nos consoles da Nintendo, uma plataforma conhecida por seu catálogo diversificado e atraente. Grandes empresas do setor, como a EA, têm consistentemente desenvolvido jogos nestes gêneros, solidificando sua posição no mercado.
 
 Interessantemente, uma análise mais aprofundada dos dados revela que os jogos classificados como MISC (Miscelânea) ocupam uma fatia considerável do mercado, superando até mesmo gêneros tradicionais como corrida e luta em termos de vendas gerais por gênero. Este fenômeno indica uma clara demanda por jogos que oferecem experiências únicas e inovadoras, que fogem do convencional. Títulos como "Katamari Damacy", "Everything", "Goat Simulator", "Octodad: Dadliest Catch" e "Stanley Parable" exemplificam essa tendência, atraindo jogadores com sua originalidade e abordagens criativas ao design de jogos.
 
@@ -110,9 +133,9 @@ JP_Sales     | Vendas no Japão (em milhões)
 Other_Sales  | endas em outras regiões (em milhões)
 Global_Sales | Vendas globais totais (em milhões)
 
-### Teste
 
 # Dados {.tabset .tabset-pills}
+___
 
 ## Estatísticas Descritivas
 
@@ -199,33 +222,18 @@ knitr::kable(estatisticas_Global, caption = "Estatísticas Descritivas das Venda
 #### Global Vs Outros Paises
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
-# Preparar os dados 
+# Preparar os dados excluindo Global_Sales
 dados_long <- vendas_jogos %>%
-  select(Global_Sales, NA_Sales, JP_Sales, EU_Sales, Other_Sales) %>%
-  pivot_longer(cols = everything(), names_to = "Tipo", values_to = "Vendas")
+  select(NA_Sales, JP_Sales, EU_Sales, Other_Sales) %>%
+  pivot_longer(cols = everything(), names_to = "Regiao", values_to = "Vendas")
 
-# Criando o gráfico de pizza incluindo todas as regiões
-ggplot(dados_long, aes(x = "", y = Vendas, fill = Tipo)) +
+# Criando o gráfico de pizza incluindo as regiões específicas
+ggplot(dados_long, aes(x = "", y = Vendas, fill = Regiao)) +
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start = 0) +  # Transforma o gráfico de barras em gráfico de pizza
   theme_void() +  # Remove a maioria dos elementos do gráfico para uma aparência limpa
   labs(title = "Comparação de Vendas por Região", fill = "Região") +
-  scale_fill_manual(values = c("Global_Sales" = "blue", "NA_Sales" = "green", "JP_Sales" = "orange", "EU_Sales" = "purple", "Other_Sales" = "red"))  # Cores personalizadas
-
-```
-
-#### Correlação
-___
-```{r warning=FALSE, message=FALSE, echo=FALSE}
-# Criar o gráfico de dispersão
-ggplot(vendas_jogos, aes(x = Global_Sales, y = Other_Sales)) +
-  geom_point(alpha = 0.5) +  # Pontos com transparência para melhor visualização
-  geom_smooth(method = "lm", color = "blue", se = FALSE) +  # Linha de tendência linear sem intervalo de confiança
-  labs(title = "Correlação entre Vendas Globais e Outras Regiões",
-       x = "Vendas Globais (Milhões)",
-       y = "Vendas em Outras Regiões (Milhões)") +
-  theme_minimal()  # Tema minimalista
-
+  scale_fill_manual(values = c("NA_Sales" = "green", "JP_Sales" = "orange", "EU_Sales" = "purple", "Other_Sales" = "red"))  # Cores personalizadas
 ```
 
 #### Contagem de jogos por gênero
@@ -315,8 +323,6 @@ vendas_jogos %>%
 
 ```
 
-
-
 #### Vendas Globais por Gênero
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
@@ -367,7 +373,14 @@ ggplot(top_generos_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
 
 ```
 
-## Dados
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+A análise gráfica das vendas de jogos por região e gênero revela insights fascinantes sobre as preferências dos consumidores em diferentes partes do mundo. Notavelmente, o gênero de ação se destaca como o líder indiscutível em vendas globais, um testemunho da sua popularidade atemporal e apelo universal. Essa predominância é um reflexo claro da demanda constante por experiências de jogo envolventes e dinâmicas que o gênero de ação proporciona.
+
+Além disso, uma observação cuidadosa dos dados revela que, entre os cinco principais gêneros em termos de volume de vendas, o gênero MISC (Miscelânea) ocupa uma posição surpreendentemente alta. Isso indica uma apreciação significativa por jogos que oferecem experiências únicas e diversificadas, possivelmente misturando elementos de múltiplos gêneros ou apresentando conceitos inovadores que desafiam a categorização tradicional. A presença proeminente do gênero MISC no topo das paradas é um testemunho da crescente curiosidade e abertura dos jogadores para explorar novas formas de entretenimento interativo.
+</div>
+
+
+## DataSet
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
 # Exibir as primeiras linhas do dataframe
 sua_tabela_sem_na_string <- vendas_jogos %>%

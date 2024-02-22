@@ -6,8 +6,9 @@ library(DT)
 vendas_jogos <- read_csv("vgsales.csv")
 datatable(vendas_jogos)
 
+#ARQUIVO DE TESTE, NÃO USADO
 
-# Supondo que 'dados' é o seu dataframe
+
 # Filtrar e imprimir as linhas onde 'Year' é NA diretamente com DT
 datatable(vendas_jogos[is.na(vendas_jogos$Year), ], options = list(pageLength = 10))
 
