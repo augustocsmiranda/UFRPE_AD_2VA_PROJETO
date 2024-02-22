@@ -1,12 +1,25 @@
 # Carregar o pacote tidyverse
 library(tidyverse)
-
+library(dplyr)
+library(DT)
 # Ler o arquivo CSV
 vendas_jogos <- read_csv("vgsales.csv")
+datatable(vendas_jogos)
+
+
+# Supondo que 'dados' é o seu dataframe
+# Filtrar e imprimir as linhas onde 'Year' é NA diretamente com DT
+datatable(vendas_jogos[is.na(vendas_jogos$Year), ], options = list(pageLength = 10))
+
+# Carregar a biblioteca DT
+library(DT)
+
+# Selecionar apenas as colunas Name e Year e imprimir com DT
+datatable(vendas_jogos[, c("Name", "Year")], options = list(pageLength = 10, autoWidth = TRUE))
+
 
 # Exibir as primeiras linhas do dataframe
 head(vendas_jogos)
-
 
 ###################
 library(knitr)
@@ -14,8 +27,7 @@ kable(vendas_jogos, caption = "Sua Legenda Aqui")
 
 ##################
 
-# Carregar a biblioteca DT
-library(DT)
+
 
 # Substitua 'sua_tabela' pelo nome real do seu dataframe
 # Remover linhas com valores NA
@@ -36,6 +48,8 @@ sua_tabela_sem_na_em_coluna_especifica <- vendas_jogos %>%
 
 # Usar datatable para mostrar a tabela filtrada
 datatable(sua_tabela_sem_na_em_coluna_especifica, options = list(pageLength = 100))
+
+
 
 ####################################
 

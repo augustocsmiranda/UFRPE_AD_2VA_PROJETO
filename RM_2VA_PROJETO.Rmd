@@ -17,14 +17,17 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(DT)
 library(dplyr)
-library(ggplot2)
 library(tidyr)
 library(shiny)
+library(ggplot2)
+#library(cowplot) Não usado
 
 # Ler o arquivo CSV
 vendas_jogos <- read_csv("vgsales.csv")
 
 ```
+<img src="Logo.png" alt="Descrição da Imagem" style="float: left;" width="100" height="100"/>
+
 
 # Projeto 2VA - Analise de Dados - UFRPE {.tabset .tabset-pills}
 
@@ -49,6 +52,16 @@ Nossa técnica envolve a análise exploratória de dados para identificar os gê
 A análise proporcionará aos clientes uma visão detalhada das dinâmicas do mercado de jogos, destacando oportunidades de investimento, áreas de crescimento potencial e tendências emergentes. Desenvolvedores e editores podem usar esses insights para orientar o desenvolvimento de novos títulos, enquanto investidores e analistas de mercado podem tomar decisões mais informadas. Para os entusiastas de jogos, nossa análise oferece uma compreensão mais profunda das tendências que moldam suas experiências de jogo.
 </div>
 
+## Conclusão
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+A análise detalhada das tendências e padrões nas vendas globais de jogos de vídeo revela insights fascinantes sobre o comportamento do consumidor e as preferências do mercado. Notavelmente, os jogos de ação emergem como os mais vendidos, evidenciando sua popularidade contínua entre os jogadores. Esses títulos são seguidos de perto pelos jogos de esportes, que também gozam de uma base de fãs significativa, especialmente nos consoles da Nintendo, uma plataforma conhecida por seu catálogo diversificado e atraente. Grandes empresas do setor, como a EA, têm consistentemente desenvolvido jogos nestes gêneros, solidificando sua posição no mercado.
+
+Interessantemente, uma análise mais aprofundada dos dados revela que os jogos classificados como MISC (Miscelânea) ocupam uma fatia considerável do mercado, superando até mesmo gêneros tradicionais como corrida e luta em termos de vendas gerais por gênero. Este fenômeno indica uma clara demanda por jogos que oferecem experiências únicas e inovadoras, que fogem do convencional. Títulos como "Katamari Damacy", "Everything", "Goat Simulator", "Octodad: Dadliest Catch" e "Stanley Parable" exemplificam essa tendência, atraindo jogadores com sua originalidade e abordagens criativas ao design de jogos.
+
+Embora os dados analisados se estendam até o ano de 2020, antes do impacto global da pandemia, títulos renomados como "Mario" e "Tetris" continuam a ser referências na indústria. No entanto, para equipes independentes (Indies) que talvez não tenham os recursos para competir diretamente com esses gigantes, investir em jogos que se enquadram na categoria MISC pode representar uma oportunidade valiosa. A tendência crescente em direção a jogos que quebram o molde tradicional e oferecem experiências únicas pode ser uma vantagem competitiva para desenvolvedores indie.
+
+Essa análise sublinha a importância de compreender as dinâmicas do mercado e as preferências dos jogadores na hora de tomar decisões estratégicas sobre o desenvolvimento de jogos. À medida que a indústria evolui, a capacidade de inovar e atender às demandas variadas do público pode ser crucial para o sucesso comercial. Ao final deste estudo, fica evidente que, enquanto gêneros estabelecidos continuam a dominar o mercado, há um espaço crescente e significativo para jogos que desafiam as expectativas e oferecem algo novo. Portanto, para desenvolvedores aspirantes e estúdios indie, explorar nichos menos saturados e investir em criatividade pode não apenas satisfazer os desejos dos jogadores por novidade, mas também pavimentar o caminho para novas oportunidades de sucesso no vasto e dinâmico universo do entretenimento digital.
+</div>
 
 # Bibliotecas Usadas {.tabset .tabset-pills}
 ___
@@ -63,15 +76,43 @@ dplyr       | Oferece uma série de funções intuitivas para manipular datafram
 ggplot2     | Permite a construção de gráficos complexos a partir de componentes simples e compreensíveis.
 
 
-## Aba 2
-Teste
+## Preparação dos Dados {.tabset .tabset-pills}
 
-## Aba 3
-Teste
+### Fonte de Dados
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+Os dados utilizados neste projeto foram obtidos a partir do Kaggle, uma plataforma de competições de ciência de dados que disponibiliza diversos datasets para análise e aprendizado. O dataset específico utilizado é o "Video Game Sales", que pode ser acessado diretamente através deste link - [Kaggle](https://www.kaggle.com/datasets/gregorut/videogamesales?resource=download)
+</div>
+
+
+### Sobre o Dataset
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+O dataset "Video Game Sales" foi compilado com o objetivo de analisar as vendas globais de jogos de vídeo ao longo de várias décadas. Ele inclui dados coletados até 2020, abrangendo mais de 16.500 jogos. Cada entrada no dataset contém informações como o nome do jogo, a plataforma em que foi lançado, o ano de lançamento, o gênero, o editor, além das vendas nas regiões da América do Norte, Europa, Japão e outras regiões, culminando nas vendas globais.
+
+Uma peculiaridade deste dataset é a presença de valores ausentes, especialmente na coluna de ano de lançamento e editora, o que requer atenção durante a etapa de limpeza dos dados. Além disso, os dados de vendas estão registrados em milhões de unidades, facilitando a análise agregada.
+</div>
+
+### Importação e Limpeza dos Dados
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+A importação dos dados foi realizada utilizando a função read.csv() do R, seguida de uma série de etapas de limpeza para assegurar a qualidade da análise. Essas etapas incluíram a remoção de registros sem ano de lançamento ou com vendas globais nulas, além da padronização dos nomes dos editores e da consolidação de plataformas similares. O propósito dessas atividades foi eliminar inconsistências e focar a análise nos dados mais relevantes e confiáveis.
+</div>
+
+### Informações Resumidas das Variáveis
+Bibliotecas | Descrição
+:------------|:----------
+Name         | O nome do jogo
+Platform     | A plataforma em que o jogo foi lançado (ex: PS4, Xbox One, PC)
+Year         | O ano de lançamento do jogo
+Genre        | O gênero do jogo (ex: Ação, Aventura, Esportes)
+Publisher    | A editora que publicou o jogo
+NA_Sales     | Vendas na América do Norte (em milhões)
+EU_Sales     | Vendas na Europa (em milhões)
+JP_Sales     | Vendas no Japão (em milhões)
+Other_Sales  | endas em outras regiões (em milhões)
+Global_Sales | Vendas globais totais (em milhões)
+
+### Teste
 
 # Dados {.tabset .tabset-pills}
-
-
 
 ## Estatísticas Descritivas
 
@@ -153,43 +194,48 @@ estatisticas_Global <- data.frame(
 knitr::kable(estatisticas_Global, caption = "Estatísticas Descritivas das Vendas GLOBAL")
 
 ```
-## Gráficos
-```{r warning=FALSE, message=FALSE, echo=FALSE}
-# Gráfico de dispersão para vendas na América do Norte vs. Europa
-ggplot(vendas_jogos, aes(x = NA_Sales, y = EU_Sales)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Vendas NA vs. EU", x = "Vendas na América do Norte (Milhões)", y = "Vendas na Europa (Milhões)")
+## Analise exploratória
 
-# Contagem de jogos por gênero
+#### Global Vs Outros Paises
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Preparar os dados 
+dados_long <- vendas_jogos %>%
+  select(Global_Sales, NA_Sales, JP_Sales, EU_Sales, Other_Sales) %>%
+  pivot_longer(cols = everything(), names_to = "Tipo", values_to = "Vendas")
+
+# Criando o gráfico de pizza incluindo todas as regiões
+ggplot(dados_long, aes(x = "", y = Vendas, fill = Tipo)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0) +  # Transforma o gráfico de barras em gráfico de pizza
+  theme_void() +  # Remove a maioria dos elementos do gráfico para uma aparência limpa
+  labs(title = "Comparação de Vendas por Região", fill = "Região") +
+  scale_fill_manual(values = c("Global_Sales" = "blue", "NA_Sales" = "green", "JP_Sales" = "orange", "EU_Sales" = "purple", "Other_Sales" = "red"))  # Cores personalizadas
+
+```
+
+#### Correlação
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Criar o gráfico de dispersão
+ggplot(vendas_jogos, aes(x = Global_Sales, y = Other_Sales)) +
+  geom_point(alpha = 0.5) +  # Pontos com transparência para melhor visualização
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +  # Linha de tendência linear sem intervalo de confiança
+  labs(title = "Correlação entre Vendas Globais e Outras Regiões",
+       x = "Vendas Globais (Milhões)",
+       y = "Vendas em Outras Regiões (Milhões)") +
+  theme_minimal()  # Tema minimalista
+
+```
+
+#### Contagem de jogos por gênero
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
 ggplot(vendas_jogos, aes(x = Genre)) +
   geom_bar(fill = "purple") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Contagem de Jogos por Gênero", x = "Gênero", y = "Contagem")
-
-
-```
-
-```{r warning=FALSE, message=FALSE, echo=FALSE}
-top_generos <- vendas_jogos %>%
-  group_by(Genre) %>%
-  summarise(Total_Global_Sales = sum(Global_Sales, na.rm = TRUE)) %>%
-  arrange(desc(Total_Global_Sales)) %>%
-  slice_head(n = 3)  # Seleciona os três primeiros gêneros com maiores vendas
-
-dados_filtrados <- vendas_jogos %>%
-  filter(Genre %in% top_generos$Genre)
-
-ggplot(dados_filtrados, aes(x = Genre, y = Global_Sales, fill = Genre)) +
-  geom_bar(stat = "identity") +
-  theme_minimal() +
-  labs(title = "Vendas Globais dos Três Principais Gêneros de Jogos",
-       x = "Gênero",
-       y = "Vendas Globais (Milhões)",
-       fill = "Gênero") +
-  geom_text(stat = 'summary', fun = sum, aes(label = ..y..), vjust = -0.5, size = 3.5) +
-  scale_y_continuous(labels = scales::comma)  # Formata os números do eixo Y
-
+  labs(title = " ", x = "Gênero", y = "Contagem")
 
 
 ```
@@ -209,22 +255,67 @@ vendas_jogos %>%
 
 ```
 
-
-#### Vendas Globais por Plataforma
+#### TOP 10 Vendas EUROPA
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
 
 vendas_jogos %>%
-  group_by(Platform) %>%
-  summarise(Total_Global_Sales = sum(Global_Sales, na.rm = TRUE)) %>%
-  arrange(desc(Total_Global_Sales)) %>%
-  ggplot(aes(x=reorder(Platform, Total_Global_Sales), y=Total_Global_Sales)) +
-  geom_col(fill="steelblue") +
+  arrange(desc(EU_Sales)) %>%
+  select(Name, EU_Sales) %>%
+  head(10) %>%
+  ggplot(aes(x=reorder(Name, EU_Sales), y=EU_Sales)) +
+  geom_col() +
   coord_flip() +
-  labs(title=" ", x="Plataforma", y="Vendas Totais (Milhões)")
-
+  labs(title=" ", x="Jogos", y="Vendas (Milhões)")
 
 ```
+
+#### TOP 10 Vendas JAPÃO
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+vendas_jogos %>%
+  arrange(desc(JP_Sales)) %>%
+  select(Name, JP_Sales) %>%
+  head(10) %>%
+  ggplot(aes(x=reorder(Name, JP_Sales), y=JP_Sales)) +
+  geom_col() +
+  coord_flip() +
+  labs(title=" ", x="Jogos", y="Vendas (Milhões)")
+
+```
+
+#### TOP 10 Vendas Outros Paises
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+vendas_jogos %>%
+  arrange(desc(Other_Sales)) %>%
+  select(Name, Other_Sales) %>%
+  head(10) %>%
+  ggplot(aes(x=reorder(Name, Other_Sales), y=Other_Sales)) +
+  geom_col() +
+  coord_flip() +
+  labs(title=" ", x="Jogos", y="Vendas (Milhões)")
+
+```
+
+#### TOP 10 Vendas Global
+___
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+
+vendas_jogos %>%
+  arrange(desc(Global_Sales)) %>%
+  select(Name, Global_Sales) %>%
+  head(10) %>%
+  ggplot(aes(x=reorder(Name, Global_Sales), y=Global_Sales)) +
+  geom_col() +
+  coord_flip() +
+  labs(title=" ", x="Jogos", y="Vendas (Milhões)")
+
+```
+
+
 
 #### Vendas Globais por Gênero
 ___
@@ -275,9 +366,6 @@ ggplot(top_generos_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
 
 
 ```
-
-#### Shiny Teste
-___
 
 ## Dados
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
