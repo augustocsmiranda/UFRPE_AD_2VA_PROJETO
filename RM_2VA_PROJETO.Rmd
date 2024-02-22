@@ -219,6 +219,12 @@ knitr::kable(estatisticas_Global, caption = "Estatísticas Descritivas das Venda
 ```
 ## Analise exploratória
 
+<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
+A análise gráfica das vendas de jogos por região e gênero revela insights fascinantes sobre as preferências dos consumidores em diferentes partes do mundo. Notavelmente, o gênero de ação se destaca como o líder indiscutível em vendas globais, um testemunho da sua popularidade atemporal e apelo universal. Essa predominância é um reflexo claro da demanda constante por experiências de jogo envolventes e dinâmicas que o gênero de ação proporciona.
+
+Além disso, uma observação cuidadosa dos dados revela que, entre os cinco principais gêneros em termos de volume de vendas, o gênero MISC (Miscelânea) ocupa uma posição surpreendentemente alta. Isso indica uma apreciação significativa por jogos que oferecem experiências únicas e diversificadas, possivelmente misturando elementos de múltiplos gêneros ou apresentando conceitos inovadores que desafiam a categorização tradicional. A presença proeminente do gênero MISC no topo das paradas é um testemunho da crescente curiosidade e abertura dos jogadores para explorar novas formas de entretenimento interativo.
+</div>
+
 #### Global Vs Outros Paises
 ___
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
@@ -372,13 +378,6 @@ ggplot(top_generos_por_regiao, aes(x = Region, y = Sales, fill = Genre)) +
 
 
 ```
-
-<div style="text-align: justify; border: 1px solid #ccc; padding: 4px; margin-bottom: auto;">
-A análise gráfica das vendas de jogos por região e gênero revela insights fascinantes sobre as preferências dos consumidores em diferentes partes do mundo. Notavelmente, o gênero de ação se destaca como o líder indiscutível em vendas globais, um testemunho da sua popularidade atemporal e apelo universal. Essa predominância é um reflexo claro da demanda constante por experiências de jogo envolventes e dinâmicas que o gênero de ação proporciona.
-
-Além disso, uma observação cuidadosa dos dados revela que, entre os cinco principais gêneros em termos de volume de vendas, o gênero MISC (Miscelânea) ocupa uma posição surpreendentemente alta. Isso indica uma apreciação significativa por jogos que oferecem experiências únicas e diversificadas, possivelmente misturando elementos de múltiplos gêneros ou apresentando conceitos inovadores que desafiam a categorização tradicional. A presença proeminente do gênero MISC no topo das paradas é um testemunho da crescente curiosidade e abertura dos jogadores para explorar novas formas de entretenimento interativo.
-</div>
-
 
 ## DataSet
 ```{r warning=FALSE, message=FALSE, echo=FALSE}
